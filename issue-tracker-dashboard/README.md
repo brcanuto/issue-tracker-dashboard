@@ -59,16 +59,16 @@ npm install
 Edit `src/app/services/issue.ts`:
 
 ```ts
-// Local development
+Local development
 private baseUrl = "http://localhost:5001/api/issues";
 
-// Production (Netlify):
-// private baseUrl = "https://your-render-api-url.onrender.com/api/issues";
+Production (Netlify):
+private baseUrl = "https://your-render-api-url.onrender.com/api/issues";
 ```
 
 ---
 
-## 🚀 Run Locally
+##  Run Locally
 
 ```
 ng serve
