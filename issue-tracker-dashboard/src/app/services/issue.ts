@@ -7,7 +7,7 @@ import { Issue } from "../models/issue.model"
   providedIn: "root"
 })
 export class IssueService {
-  private baseUrl = "https://issue-tracker-dashboard.onrender.com"
+  private baseUrl = "https://issue-tracker-dashboard.onrender.com/api/issues"
 
   constructor(private http: HttpClient) {}
 
