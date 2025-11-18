@@ -48,7 +48,7 @@ Create `.env`:
 
 ```
 MONGO_URI=your_mongo_connection_string
-PORT=5000
+PORT=5001
 ```
 
 ---
@@ -60,7 +60,7 @@ npm run dev
 
 Open:
 ```
-http://localhost:5000/api/issues
+http://localhost:5001/api/issues
 ```
 
 ---
@@ -96,5 +96,5 @@ You can use:
 
 Example:
 ```
-curl http://localhost:5000/api/issues
+curl http://localhost:5001/api/issues
 ```
