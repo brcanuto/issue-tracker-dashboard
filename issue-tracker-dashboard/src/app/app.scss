@@ -1,0 +1,81 @@
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+    background: linear-gradient(
+      to right,
+      rgba(15, 23, 42, 0.9),
+      rgba(30, 64, 175, 0.9)
+    );
+    color: white;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  }
+  
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 14px;
+    gap: 16px;
+  }
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 10%, #a5b4fc, #1d4ed8);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .brand-name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .brand-subtitle {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  
+  .header-meta {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(148, 163, 184, 0.7);
+  }
+  
+  .app-main {
+    flex: 1;
+    padding-top: 16px;
+    padding-bottom: 32px;
+  }
+  

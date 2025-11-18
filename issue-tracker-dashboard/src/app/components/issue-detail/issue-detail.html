@@ -1,0 +1,96 @@
+<section *ngIf="issue" aria-labelledby="issue-detail-heading" class="detail-card">
+    <div class="detail-header">
+      <button class="btn btn-secondary" type="button" (click)="goBack()">
+        ← Back to issues
+      </button>
+  
+      <div class="detail-header-right">
+        <span
+          class="chip"
+          [ngClass]="{
+            'chip-status-open': issue.status === 'open',
+            'chip-status-in-progress': issue.status === 'in_progress',
+            'chip-status-resolved': issue.status === 'resolved',
+            'chip-status-closed': issue.status === 'closed'
+          }"
+        >
+          {{ issue.status | titlecase }}
+        </span>
+  
+        <span
+          class="chip"
+          [ngClass]="{
+            'chip-priority-low': issue.priority === 'low',
+            'chip-priority-medium': issue.priority === 'medium',
+            'chip-priority-high': issue.priority === 'high'
+          }"
+        >
+          {{ issue.priority | titlecase }} priority
+        </span>
+      </div>
+    </div>
+  
+    <h1 id="issue-detail-heading">{{ issue.title }}</h1>
+    <p class="detail-description">{{ issue.description }}</p>
+  
+    <div class="detail-meta">
+      <div>
+        <span class="label">Assigned to:</span>
+        <span>{{ issue.assignedTo || "Unassigned" }}</span>
+      </div>
+      <div>
+        <span class="label">Created by:</span>
+        <span>{{ issue.createdBy || "Unknown" }}</span>
+      </div>
+      <div>
+        <span class="label">Created:</span>
+        <span>{{ issue.createdAt | date: "medium" }}</span>
+      </div>
+      <div>
+        <span class="label">Updated:</span>
+        <span>{{ issue.updatedAt | date: "short" }}</span>
+      </div>
+    </div>
+  
+    <div class="detail-sections">
+      <div class="detail-section">
+        <h2>Update status</h2>
+        <div class="status-buttons">
+          <button class="btn btn-secondary" type="button" (click)="updateStatus('open')">
+            Open
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="updateStatus('in_progress')">
+            In progress
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="updateStatus('resolved')">
+            Resolved
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="updateStatus('closed')">
+            Closed
+          </button>
+        </div>
+      </div>
+  
+      <div class="detail-section danger">
+        <h2>Danger zone</h2>
+        <p class="danger-text">
+          Deleting an issue is permanent and cannot be undone.
+        </p>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteIssue()"
+          [disabled]="isDeleting"
+        >
+          {{ isDeleting ? "Deleting..." : "Delete issue" }}
+        </button>
+        <p *ngIf="deleteError" class="error">{{ deleteError }}</p>
+      </div>
+    </div>
+  
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </section>
+  
+  <p *ngIf="!issue && !isLoading && !errorMessage">Issue not found.</p>
+  <p *ngIf="isLoading">Loading issue...</p>
+  

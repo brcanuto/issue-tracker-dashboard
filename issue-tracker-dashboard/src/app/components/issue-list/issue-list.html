@@ -1,0 +1,175 @@
+<section aria-labelledby="issues-heading">
+    <div class="toolbar">
+      <h1 id="issues-heading">Issue Tracker</h1>
+      <button type="button" (click)="goToNewIssue()">Create New Issue</button>
+    </div>
+
+    <div class="summary-cards" *ngIf="!isLoading && !errorMessage">
+        <div class="card">
+          <h2>{{ stats.total }}</h2>
+          <p>Total issues</p>
+        </div>
+        <div class="card">
+          <h2>{{ stats.open }}</h2>
+          <p>Open</p>
+        </div>
+        <div class="card">
+          <h2>{{ stats.inProgress }}</h2>
+          <p>In progress</p>
+        </div>
+        <div class="card">
+          <h2>{{ stats.resolved }}</h2>
+          <p>Resolved</p>
+        </div>
+        <div class="card">
+          <h2>{{ stats.closed }}</h2>
+          <p>Closed</p>
+        </div>
+        <div class="card high">
+          <h2>{{ stats.highPriorityOpen }}</h2>
+          <p>High priority open</p>
+        </div>
+      </div>
+  
+    <form class="filters" (ngSubmit)="$event.preventDefault()">
+      <label>
+        Status
+        <select
+          [(ngModel)]="statusFilter"
+          name="statusFilter"
+          (change)="onFiltersChange()"
+        >
+          <option value="">All</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+      </label>
+  
+      <label>
+        Priority
+        <select
+          [(ngModel)]="priorityFilter"
+          name="priorityFilter"
+          (change)="onFiltersChange()"
+        >
+          <option value="">All</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </label>
+    </form>
+  
+    <div class="search-sort">
+      <label>
+        Search
+        <input
+          type="text"
+          name="searchTerm"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Search title or description"
+        />
+      </label>
+  
+      <label>
+        Sort
+        <select
+          name="sortOption"
+          [(ngModel)]="sortOption"
+          (change)="onSortChange()"
+        >
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="priority-high">High priority first</option>
+        </select>
+      </label>
+    </div>
+  
+    <div *ngIf="isLoading">Loading issues...</div>
+    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+  
+    <ul *ngIf="!isLoading && !errorMessage">
+        <li
+          *ngFor="let issue of issues"
+          (click)="goToIssue(issue._id)"
+          tabindex="0"
+          (keydown.enter)="goToIssue(issue._id)"
+          (keydown.space)="goToIssue(issue._id)"
+          aria-label="View issue details"
+          class="issue-card"
+        >
+          <div class="issue-card-header">
+            <div class="issue-title-row">
+              <h2>{{ issue.title }}</h2>
+            </div>
+    
+            <div class="issue-chips">
+              <span
+                class="chip"
+                [ngClass]="{
+                  'chip-status-open': issue.status === 'open',
+                  'chip-status-in-progress': issue.status === 'in_progress',
+                  'chip-status-resolved': issue.status === 'resolved',
+                  'chip-status-closed': issue.status === 'closed'
+                }"
+              >
+                {{ issue.status | titlecase }}
+              </span>
+    
+              <span
+                class="chip"
+                [ngClass]="{
+                  'chip-priority-low': issue.priority === 'low',
+                  'chip-priority-medium': issue.priority === 'medium',
+                  'chip-priority-high': issue.priority === 'high'
+                }"
+              >
+                {{ issue.priority | titlecase }} priority
+              </span>
+            </div>
+          </div>
+    
+          <p class="issue-description">
+            {{ issue.description }}
+          </p>
+    
+          <div class="issue-meta-row">
+            <span class="issue-meta">
+              Created:
+              <strong>{{ issue.createdAt | date: 'mediumDate' }}</strong>
+            </span>
+            <span class="issue-meta">
+              Updated:
+              <strong>{{ issue.updatedAt | date: 'short' }}</strong>
+            </span>
+          </div>
+        </li>
+      </ul>
+
+    <nav *ngIf="!isLoading && !errorMessage && totalPages > 1" class="pagination">
+        <button type="button" (click)="prevPage()" [disabled]="currentPage === 1">
+          ‹ Prev
+        </button>
+    
+        <button
+          type="button"
+          *ngFor="let p of pages"
+          (click)="goToPage(p)"
+          [class.active]="p === currentPage"
+        >
+          {{ p }}
+        </button>
+    
+        <button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Next ›
+        </button>
+    </nav>
+  </section>
+  

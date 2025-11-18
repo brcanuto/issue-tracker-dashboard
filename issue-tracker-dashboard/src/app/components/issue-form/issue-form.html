@@ -1,0 +1,87 @@
+<section aria-labelledby="new-issue-heading" class="form-card">
+    <button class="btn btn-secondary back-btn" type="button" (click)="goBack()">
+         Back to issues
+    </button>
+    
+    <div class="form-header">
+      <h1 id="new-issue-heading">Create new issue</h1>
+      <p class="subtitle">
+        Capture a bug, task, or request with status and priority so it shows up
+        in your dashboard.
+      </p>
+    </div>
+  
+    <form (ngSubmit)="onSubmit()" class="issue-form">
+      <div class="form-grid">
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            id="title"
+            name="title"
+            [(ngModel)]="issue.title"
+            required
+            placeholder="Short summary (e.g. 'Payment form validation bug')"
+          />
+        </div>
+  
+        <div class="field">
+          <label for="assignedTo">Assigned to</label>
+          <input
+            id="assignedTo"
+            name="assignedTo"
+            [(ngModel)]="issue.assignedTo"
+            placeholder="Team member responsible"
+          />
+        </div>
+  
+        <div class="field">
+          <label for="createdBy">Created by</label>
+          <input
+            id="createdBy"
+            name="createdBy"
+            [(ngModel)]="issue.createdBy"
+            placeholder="Your name or requester"
+          />
+        </div>
+  
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status" [(ngModel)]="issue.status">
+            <option value="open">Open</option>
+            <option value="in_progress">In progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+  
+        <div class="field">
+          <label for="priority">Priority</label>
+          <select id="priority" name="priority" [(ngModel)]="issue.priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="field full-width">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="issue.description"
+          required
+          placeholder="Add more context: expected behavior, steps to reproduce, links, etc."
+        ></textarea>
+      </div>
+  
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  
+      <div class="form-actions">
+        <button type="submit" class="btn" [disabled]="isSubmitting">
+          {{ isSubmitting ? "Creating..." : "Create issue" }}
+        </button>
+      </div>
+    </form>
+  </section>
+  

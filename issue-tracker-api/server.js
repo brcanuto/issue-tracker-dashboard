@@ -1,0 +1,33 @@
+const express = require("express")
+const cors = require("cors")
+const dotenv = require("dotenv")
+const connectDB = require("./src/config/db")
+const issueRoutes = require("./src/routes/issueRoutes")
+
+dotenv.config()
+
+const app = express()
+
+// Middleware
+app.use(cors())
+app.use(express.json())
+
+// Connect to MongoDB
+connectDB()
+
+// Root sanity check
+app.get("/", (req, res) => {
+  res.send("Issue Tracker API is running")
+})
+
+// Issue routes (with a simple log per request)
+app.use("/api/issues", (req, res, next) => {
+  console.log(`[API] ${req.method} ${req.originalUrl}`)
+  next()
+}, issueRoutes)
+
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
