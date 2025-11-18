@@ -44,6 +44,7 @@ npm install
 ```
 
 ### Add environment variables
+
 Create `.env`:
 
 ```
@@ -54,11 +55,13 @@ PORT=5001
 ---
 
 ##  Run the API
+
 ```
 npm run dev
 ```
 
 Open:
+
 ```
 http://localhost:5001/api/issues
 ```
@@ -69,6 +72,7 @@ http://localhost:5001/api/issues
 
 ### GET /api/issues
 Fetch all issues with optional filters:
+
 ```
 /api/issues?status=open&priority=high
 ```
@@ -80,7 +84,7 @@ Fetch a single issue.
 Create a new issue.
 
 ### PATCH /api/issues/:id
-Update issue fields.
+Update fields on an existing issue.
 
 ### DELETE /api/issues/:id
 Delete an issue.
@@ -89,10 +93,10 @@ Delete an issue.
 
 ##  Testing
 
-You can use:
-- Postman
-- curl
-- VSCode REST client
+Use:
+- Postman  
+- curl  
+- VSCode REST client  
 
 Example:
 ```

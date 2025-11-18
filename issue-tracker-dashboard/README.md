@@ -1,29 +1,32 @@
 # Issue Tracker Dashboard (Angular 17)
 
 Frontend for the **Issue Tracker Dashboard** project.  
-Modern Angular 17 app using Standalone Components, SCSS, and a polished dashboard-style UI.
+A modern Angular 17 Single Page Application using Standalone Components, SCSS, and a clean dashboard UI.
 
 Features:
-- KPI summary cards  
-- Search, sorting, filtering  
-- Pagination  
-- Create, edit, delete issues  
-- Status & priority chips  
-- Responsive layout  
+- KPI summary cards
+- Search, sorting, filtering
+- Pagination
+- Create, edit, delete issues
+- Status & priority chips
+- Responsive layout
+- Back button for forms
+
+> **Note:** This is a client-side **SPA** (no SSR/prerender) for simple and fast Netlify deployment.
 
 ---
 
-##  Tech Stack
+## Tech Stack
 
-- Angular 17 (Standalone)
-- TypeScript  
-- Angular Router  
-- HttpClient (Fetch enabled)  
-- SCSS  
+- Angular 17 (Standalone Components)
+- TypeScript
+- Angular Router
+- Angular HttpClient (Fetch)
+- SCSS
 
 ---
 
-##  Project Structure
+## Project Structure
 
 ```
 issue-tracker-dashboard/
@@ -45,7 +48,7 @@ issue-tracker-dashboard/
 
 ---
 
-##  Setup
+## Setup
 
 ```
 npm install
@@ -56,44 +59,51 @@ npm install
 Edit `src/app/services/issue.ts`:
 
 ```ts
+// Local development
 private baseUrl = "http://localhost:5001/api/issues";
+
+// Production (Netlify):
+// private baseUrl = "https://your-render-api-url.onrender.com/api/issues";
 ```
 
 ---
 
-##  Run Locally
+## 🚀 Run Locally
+
 ```
 ng serve
 ```
 
 Open:
+
 ```
 http://localhost:4200
 ```
 
 ---
 
-##  Features
+## Features
 
 ### Dashboard
-- Total issues  
-- Open / In Progress / Resolved / Closed  
-- High priority issues  
-- Status/priority chips  
+- Total issues
+- High-priority count
+- Status breakdown
 
 ### Issue List
-- Search  
-- Sorting  
-- Filters  
-- Pagination  
-- Clickable cards  
+- Search
+- Sorting
+- Filtering
+- Pagination
+- Clickable cards
 
 ### Issue Detail
-- Full metadata  
-- Status update buttons  
-- Delete confirmation  
+- Issue metadata
+- Status update buttons
+- Delete confirmation
 
 ### Create Issue
-- Required field validation  
-- SCSS layout  
-- Back button  
+- Required field validation
+- SCSS layout
+- Back button
+
+

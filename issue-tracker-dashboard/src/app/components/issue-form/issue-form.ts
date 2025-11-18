@@ -1,14 +1,14 @@
 import { Component } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { FormsModule } from "@angular/forms"
-import { Router, RouterLink } from "@angular/router"
+import { Router } from "@angular/router"
 import { IssueService } from "../../services/issue"
 import { Issue } from "../../models/issue.model"
 
 @Component({
   selector: "app-issue-form",
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: "./issue-form.html",
   styleUrl: "./issue-form.scss"
 })

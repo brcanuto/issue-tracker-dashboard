@@ -3,14 +3,14 @@
 A polished, full-stack **Issue Tracking Dashboard** built with **MongoDB, Express, Angular 17 (Standalone), and Node.js**.  
 This project recreates a modern SaaS-style issue management tool with a clean UI, KPIs, filtering, sorting, pagination, and full CRUD operations.
 
-Designed as a **portfolio-quality project** to showcase full-stack development, UI/UX polish, and modern Angular architecture.
+Designed as a **portfolio-quality project** to showcase full-stack development, UI/UX polish, API integration, and modern Angular architecture.
 
 ---
 
 ##  Live Demo
 
 **Frontend (Angular):** _Coming soon…_  
-**Backend (Express API):** https://issue-tracker-dashboard.onrender.com
+**Backend (Express API):** https://issue-tracker-api.onrender.com
 
 ---
 
@@ -18,17 +18,19 @@ Designed as a **portfolio-quality project** to showcase full-stack development, 
 
 ### Frontend
 - Angular 17 (Standalone Components)
-- TypeScript  
-- SCSS  
-- Angular HttpClient (with Fetch)  
+- TypeScript
+- SCSS
+- Angular Router
+- Angular HttpClient (Fetch backend enabled)
+- **Deployed as a static SPA (no SSR)**
 
 ### Backend
-- Node.js  
-- Express  
-- MongoDB Atlas  
-- Mongoose  
-- dotenv  
-- CORS  
+- Node.js
+- Express
+- MongoDB Atlas
+- Mongoose
+- dotenv
+- CORS
 
 ---
 
@@ -37,7 +39,7 @@ Designed as a **portfolio-quality project** to showcase full-stack development, 
 ```
 issue-tracker/
   ├── issue-tracker-api/        # Backend (Express + MongoDB)
-  └── issue-tracker-dashboard/  # Frontend (Angular 17)
+  └── issue-tracker-dashboard/  # Frontend (Angular 17 SPA)
 ```
 
 ---
@@ -56,8 +58,10 @@ npm run dev
 
 ```
 MONGO_URI=your_mongo_connection_string
-PORT=5000
+PORT=5001
 ```
+
+---
 
 ### Frontend
 

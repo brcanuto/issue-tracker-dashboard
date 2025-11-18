@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { FormsModule } from "@angular/forms"
-import { Router, RouterLink } from "@angular/router"
+import { Router } from "@angular/router"
 import { Issue } from "../../models/issue.model"
 import { IssueService } from "../../services/issue"
 
@@ -10,7 +10,7 @@ type SortOption = "newest" | "oldest" | "priority-high"
 @Component({
   selector: "app-issue-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: "./issue-list.html",
   styleUrl: "./issue-list.scss"
 })

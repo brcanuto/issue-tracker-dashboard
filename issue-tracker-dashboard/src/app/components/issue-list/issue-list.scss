@@ -9,8 +9,9 @@
       font-weight: 600;
     }
   
-    button {
-      @extend .btn;
+    .btn {
+    font-size: 13px;
+    padding-inline: 14px;
     }
   }
   
