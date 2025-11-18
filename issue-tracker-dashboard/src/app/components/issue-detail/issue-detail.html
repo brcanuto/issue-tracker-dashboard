@@ -91,6 +91,13 @@
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
   </section>
   
-  <p *ngIf="!issue && !isLoading && !errorMessage">Issue not found.</p>
   <p *ngIf="isLoading">Loading issue...</p>
-  
+  <div *ngIf="errorMessage && !isLoading" class="error-block">
+  <p class="error-text">{{ errorMessage }}</p>
+  <button type="button" class="btn btn-secondary" (click)="fetchIssue(issue?._id!)" *ngIf="issue?._id">
+    Try again
+  </button>
+  <button type="button" class="btn btn-primary" (click)="goBack()">
+    Back to issues
+  </button>
+</div>

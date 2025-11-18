@@ -36,15 +36,26 @@ export class IssueDetailComponent implements OnInit {
   fetchIssue(id: string): void {
     console.log("[IssueDetail] Loading issue", id)
     this.isLoading = true
+    this.errorMessage = ""
+    this.issue = null
+
+    const timeoutId = setTimeout(() => {
+      if (this.isLoading) {
+        this.errorMessage =
+          "This is taking longer than expected. You can try again or go back to the issue list.";
+      }
+    }, 45000)
 
     this.issueService.getIssue(id).subscribe({
       next: (data) => {
         console.log("[IssueDetail] Loaded:", data)
+        clearTimeout(timeoutId)
         this.issue = data
         this.isLoading = false
       },
       error: () => {
-        this.errorMessage = "Failed to load issue"
+        clearTimeout(timeoutId)
+        this.errorMessage = "Failed to load issue. Please try again or go back."
         this.isLoading = false
       }
     })
