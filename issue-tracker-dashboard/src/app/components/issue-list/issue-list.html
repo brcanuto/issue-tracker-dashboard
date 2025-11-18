@@ -1,7 +1,7 @@
 <section aria-labelledby="issues-heading">
     <div class="toolbar">
       <h1 id="issues-heading">Issue Tracker</h1>
-      <button type="button" (click)="goToNewIssue()">Create New Issue</button>
+      <button type="button" class="btn btn-primary" (click)="goToNewIssue()">Create New Issue</button>
     </div>
 
     <div class="summary-cards" *ngIf="!isLoading && !errorMessage">
