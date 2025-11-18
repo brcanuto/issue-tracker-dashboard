@@ -37,26 +37,28 @@ export class IssueService {
     if (filters?.status) params = params.set("status", filters.status)
     if (filters?.priority) params = params.set("priority", filters.priority)
 
+    params = this.withUserKey(params)
+
     return this.http.get<Issue[]>(this.baseUrl, { params })
   }
 
   getIssue(id: string): Observable<Issue> {
-    console.log("[IssueService] GET one", `${this.baseUrl}/${id}`)
-    return this.http.get<Issue>(`${this.baseUrl}/${id}`)
+    const params = this.withUserKey()
+    return this.http.get<Issue>(`${this.baseUrl}/${id}`, { params })
   }
 
   createIssue(issue: Issue): Observable<Issue> {
-    console.log("[IssueService] POST", this.baseUrl, "body:", issue)
-    return this.http.post<Issue>(this.baseUrl, issue)
+    const params = this.withUserKey()
+    return this.http.post<Issue>(this.baseUrl, issue, {params})
   }
 
   updateIssue(id: string, updates: Partial<Issue>): Observable<Issue> {
-    console.log("[IssueService] PATCH", `${this.baseUrl}/${id}`, "updates:", updates)
-    return this.http.patch<Issue>(`${this.baseUrl}/${id}`, updates)
+    const params = this.withUserKey()
+    return this.http.patch<Issue>(`${this.baseUrl}/${id}`, updates, {params})
   }
 
   deleteIssue(id: string): Observable<{ message: string }> {
-    console.log("[IssueService] DELETE", `${this.baseUrl}/${id}`)
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`)
+    const params = this.withUserKey()
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`, {params})
   }
 }
