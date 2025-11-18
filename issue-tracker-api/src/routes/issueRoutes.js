@@ -10,6 +10,8 @@ const router = express.Router()
 router.get("/", async (req, res) => {
   try {
     const { status, priority } = req.query
+    const userKey = getUserKey()
+
     const filter = {}
 
     if (userKey) {
@@ -50,8 +52,9 @@ router.get("/:id", async (req, res) => {
 // POST create issue
 router.post("/", async (req, res) => {
   try {
-    const { title, description, status, priority, assignedTo, createdBy } =
-      req.body
+    const userKey = getUserKey()
+
+    const { title, description, status, priority, assignedTo, createdBy } = req.body
 
     const issue = await Issue.create({
       title,
