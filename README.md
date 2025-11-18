@@ -9,7 +9,7 @@ Designed as a **portfolio-quality project** to showcase full-stack development, 
 
 ##  Live Demo
 
-**Frontend (Angular):** _Coming soon…_  
+**Frontend (Angular):** https://issue-track-dashboard.netlify.app/ 
 **Backend (Express API):** https://issue-tracker-api.onrender.com
 
 ---
