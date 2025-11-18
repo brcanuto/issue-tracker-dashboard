@@ -1,5 +1,8 @@
 const express = require("express")
 const Issue = require("../models/Issue")
+const getUserKey = (req) => {
+  return req.query.userKey || null
+}
 
 const router = express.Router()
 
@@ -8,6 +11,10 @@ router.get("/", async (req, res) => {
   try {
     const { status, priority } = req.query
     const filter = {}
+
+    if (userKey) {
+      filter.ownerKey = userKey
+    }
 
     if (status) filter.status = status
     if (priority) filter.priority = priority
@@ -23,8 +30,16 @@ router.get("/", async (req, res) => {
 // GET single issue
 router.get("/:id", async (req, res) => {
   try {
-    const issue = await Issue.findById(req.params.id)
+    const userKey = getUserKey(req)
+    const filter = {_id: req.params.id}
+    
+    if (userKey) {
+      filter.ownerKey = userKey
+    }
+
+    const issue = await Issue.findOne(filter)
     if (!issue) return res.status(404).json({ error: "Issue not found" })
+    
     res.json(issue)
   } catch (err) {
     console.error("Error fetching issue:", err.message)
@@ -44,7 +59,8 @@ router.post("/", async (req, res) => {
       status,
       priority,
       assignedTo,
-      createdBy
+      createdBy,
+      ownerKey: userKey || null
     })
 
     res.status(201).json(issue)
@@ -57,7 +73,13 @@ router.post("/", async (req, res) => {
 // PATCH update issue
 router.patch("/:id", async (req, res) => {
   try {
+    const userKey = getUserKey(req)
     const updates = req.body
+
+    const filter = {_id: req.params.id}
+    if (userKey) {
+      filter.ownerKey = userKey
+    }
 
     const issue = await Issue.findByIdAndUpdate(
       req.params.id,
@@ -77,8 +99,14 @@ router.patch("/:id", async (req, res) => {
 // DELETE issue
 router.delete("/:id", async (req, res) => {
     try {
-      console.log("[API] DELETE /api/issues/" + req.params.id)
-  
+
+      const userKey = getUserKey(req)
+      const filter = {_id: req.params.id}
+
+      if (userKey) {
+        filter.ownerKey = userKey
+      }
+
       const issue = await Issue.findByIdAndDelete(req.params.id)
       if (!issue) return res.status(404).json({ error: "Issue not found" })
   

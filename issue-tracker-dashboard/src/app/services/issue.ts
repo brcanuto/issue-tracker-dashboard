@@ -9,7 +9,26 @@ import { Issue } from "../models/issue.model"
 export class IssueService {
   private baseUrl = "https://issue-tracker-dashboard.onrender.com/api/issues"
 
+  private userKey = this.ensureUserKey()
+
   constructor(private http: HttpClient) {}
+
+  private ensureUserKey(): string {
+    const keyName = "issueTrackerUserKey"
+    let existing = localStorage.getItem(keyName)
+
+    if (!existing) {
+      existing = `user_${Math.random().toString(36).slice(2)}_${Date.now()}`
+      localStorage.setItem(keyName, existing)
+    }
+
+    return existing
+  }
+
+  private withUserKey(params?: HttpParams): HttpParams {
+    let p = params ?? new HttpParams()
+    return p.set("userKey", this.userKey)
+  }
 
   getIssues(filters?: { status?: string, priority?: string }): Observable<Issue[]> {
     console.log("[IssueService] GET", this.baseUrl, "filters:", filters)

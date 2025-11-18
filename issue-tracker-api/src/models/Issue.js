@@ -15,7 +15,9 @@ const issueSchema = new mongoose.Schema(
       default: "medium"
     },
     assignedTo: { type: String, default: "" },
-    createdBy: { type: String, default: "" }
+    createdBy: { type: String, default: "" },
+
+    ownerKey: { type: String, index: true }
   },
   { timestamps: true }
 )
