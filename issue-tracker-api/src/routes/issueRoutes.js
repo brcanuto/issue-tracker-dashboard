@@ -1,10 +1,21 @@
 const express = require("express")
 const Issue = require("../models/Issue")
+
+const router = express.Router()
+
 const getUserKey = (req) => {
+  if (!req) {
+    console.warn("[getUserKey] req is undefined")
+    return null
+  }
+  if (!req.query) {
+    console.warn("[getUserKey] req.query is undefined")
+    return null
+  }
+
   return req.query.userKey || null
 }
 
-const router = express.Router()
 
 // GET all issues, with optional status and priority filters
 router.get("/", async (req, res) => {
@@ -33,6 +44,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const userKey = getUserKey(req)
+
     const filter = {_id: req.params.id}
     
     if (userKey) {
@@ -84,7 +96,7 @@ router.patch("/:id", async (req, res) => {
       filter.ownerKey = userKey
     }
 
-    const issue = await Issue.findByIdAndUpdate(
+    const issue = await Issue.findOneAndUpdate(
       req.params.id,
       { $set: updates },
       { new: true }
@@ -102,15 +114,15 @@ router.patch("/:id", async (req, res) => {
 // DELETE issue
 router.delete("/:id", async (req, res) => {
     try {
-
       const userKey = getUserKey(req)
+      
       const filter = {_id: req.params.id}
 
       if (userKey) {
         filter.ownerKey = userKey
       }
 
-      const issue = await Issue.findByIdAndDelete(req.params.id)
+      const issue = await Issue.findOneAndUpdate(req.params.id)
       if (!issue) return res.status(404).json({ error: "Issue not found" })
   
       res.json({ message: "Issue deleted" })
