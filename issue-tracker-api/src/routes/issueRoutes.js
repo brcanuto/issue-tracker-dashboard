@@ -44,19 +44,26 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const userKey = getUserKey(req)
+    console.log("[GET /api/issues/:id] userKey:", userKey, "id:", req.params.id)
 
-    const filter = {_id: req.params.id}
-    
-    if (userKey) {
-      filter.ownerKey = userKey
+    const issue = await Issue.findById(req.params.id)
+    if (!issue) return res.status(404).json({ error: "Issue not found" })
+
+    // If the issue has an ownerKey set, enforce that it matches the userKey.
+    if (issue.ownerKey && userKey && issue.ownerKey !== userKey) {
+      console.warn(
+        "[GET /api/issues/:id] ownerKey mismatch",
+        "issue.ownerKey:",
+        issue.ownerKey,
+        "userKey:",
+        userKey
+      )
+      return res.status(404).json({ error: "Issue not found" })
     }
 
-    const issue = await Issue.findOne(filter)
-    if (!issue) return res.status(404).json({ error: "Issue not found" })
-    
     res.json(issue)
   } catch (err) {
-    console.error("Error fetching issue:", err.message)
+    console.error("Error fetching issue:", err)
     res.status(500).json({ error: "Server error" })
   }
 })
