@@ -11,6 +11,7 @@ Features:
 - Status & priority chips
 - Responsive layout
 - Back button for forms
+- Per-browser pseudo-user isolation using localStorage (userKey)
 
 > **Note:** This is a client-side **SPA** (no SSR/prerender) for simple and fast Netlify deployment.
 

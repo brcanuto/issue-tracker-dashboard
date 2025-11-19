@@ -49,7 +49,6 @@ export class IssueListComponent implements OnInit {
   }
 
   fetchIssues(): void {
-    console.log("[IssueList] fetchIssues called")
 
     this.isLoading = true
     this.errorMessage = ""
@@ -61,7 +60,6 @@ export class IssueListComponent implements OnInit {
       })
       .subscribe({
         next: (data) => {
-          console.log("[IssueList] received data:", data)
           this.allIssues = data
           this.recomputeStats()
           this.currentPage = 1
@@ -69,7 +67,6 @@ export class IssueListComponent implements OnInit {
           this.isLoading = false
         },
         error: (err) => {
-          console.error("[IssueList] error:", err)
           this.errorMessage = "Failed to load issues"
           this.isLoading = false
         }
@@ -140,14 +137,7 @@ export class IssueListComponent implements OnInit {
       const end = start + this.pageSize
       const pageSlice = result.slice(start, end)
     
-      console.log(
-        "[IssueList] page",
-        this.currentPage,
-        "of",
-        this.totalPages,
-        "items:",
-        pageSlice.map((i) => i.title)
-      )
+
     
     this.issues = pageSlice
   }
@@ -201,7 +191,6 @@ export class IssueListComponent implements OnInit {
       highPriorityOpen
     }
   
-    console.log("[IssueList] stats:", this.stats)
   }
 
   get pages(): number[] {

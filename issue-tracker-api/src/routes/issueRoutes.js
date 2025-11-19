@@ -5,14 +5,12 @@ const router = express.Router()
 
 const getUserKey = (req) => {
   if (!req) {
-    console.warn("[getUserKey] req is undefined")
     return null
   }
 
   const query = req.query || {}
   const key = query.userKey || null
 
-  console.log("[getUserKey] query:", query, "resolved userKey:", key)
   return key
 }
 
@@ -35,7 +33,6 @@ router.get("/", async (req, res) => {
     const issues = await Issue.find(filter).sort({ createdAt: -1 })
     res.json(issues)
   } catch (err) {
-    console.error("Error fetching issues:", err.message)
     res.status(500).json({ error: "Server error" })
   }
 })
@@ -44,12 +41,10 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const userKey = getUserKey(req)
-    console.log("[GET /api/issues/:id] userKey:", userKey, "id:", req.params.id)
 
     const issue = await Issue.findById(req.params.id)
     if (!issue) return res.status(404).json({ error: "Issue not found" })
 
-    // If the issue has an ownerKey set, enforce that it matches the userKey.
     if (issue.ownerKey && userKey && issue.ownerKey !== userKey) {
       console.warn(
         "[GET /api/issues/:id] ownerKey mismatch",
@@ -72,7 +67,6 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const userKey = getUserKey(req)
-    console.log("[POST /api/issues] userKey:", userKey, "body:", req.body)
 
     const { title, description, status, priority, assignedTo, createdBy } =
       req.body

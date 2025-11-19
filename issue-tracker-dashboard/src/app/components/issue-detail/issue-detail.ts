@@ -34,7 +34,6 @@ export class IssueDetailComponent implements OnInit {
   }
 
   fetchIssue(id: string): void {
-    console.log("[IssueDetail] Loading issue", id)
     this.isLoading = true
     this.errorMessage = ""
     this.issue = null
@@ -48,14 +47,12 @@ export class IssueDetailComponent implements OnInit {
 
     this.issueService.getIssue(id).subscribe({
       next: (data) => {
-        console.log("[IssueDetail] Loaded:", data)
         clearTimeout(timeoutId)
         this.issue = data
         this.isLoading = false
       },
       error: () => {
         clearTimeout(timeoutId)
-        this.errorMessage = "Failed to load issue. Please try again or go back."
         this.isLoading = false
       }
     })
@@ -64,11 +61,9 @@ export class IssueDetailComponent implements OnInit {
   updateStatus(status: Issue["status"]): void {
     if (!this.issue || !this.issue._id) return
 
-    console.log("[IssueDetail] Updating status to:", status)
 
     this.issueService.updateIssue(this.issue._id, { status }).subscribe({
       next: (updated) => {
-        console.log("[IssueDetail] Updated:", updated)
         this.issue = updated
       },
       error: () => {
@@ -91,7 +86,6 @@ export class IssueDetailComponent implements OnInit {
 
     this.isDeleting = true
     this.deleteError = ""
-    console.log("[IssueDetail] Deleting issue", this.issue._id)
 
     this.issueService.deleteIssue(this.issue._id).subscribe({
       next: () => {
@@ -99,7 +93,6 @@ export class IssueDetailComponent implements OnInit {
         this.router.navigate(["/issues"])
       },
       error: (err) => {
-        console.error("[IssueDetail] delete error:", err)
         this.deleteError = "Failed to delete issue"
         this.isDeleting = false
       }

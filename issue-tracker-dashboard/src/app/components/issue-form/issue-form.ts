@@ -36,16 +36,13 @@ export class IssueFormComponent {
     this.isSubmitting = true
     this.errorMessage = ""
 
-    console.log("[IssueForm] submitting issue:", this.issue)
 
     this.issueService.createIssue(this.issue).subscribe({
       next: (created) => {
-        console.log("[IssueForm] created:", created)
         this.isSubmitting = false
         this.router.navigate(["/issues"])
       },
       error: (err) => {
-        console.error("[IssueForm] error:", err)
         this.errorMessage = "Failed to create issue"
         this.isSubmitting = false
       }

@@ -31,7 +31,6 @@ export class IssueService {
   }
 
   getIssues(filters?: { status?: string, priority?: string }): Observable<Issue[]> {
-    console.log("[IssueService] GET", this.baseUrl, "filters:", filters)
 
     let params = new HttpParams()
     if (filters?.status) params = params.set("status", filters.status)

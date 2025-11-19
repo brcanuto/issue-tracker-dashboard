@@ -22,12 +22,8 @@ app.get("/", (req, res) => {
 
 // Issue routes (with a simple log per request)
 app.use("/api/issues", (req, res, next) => {
-  console.log(`[API] ${req.method} ${req.originalUrl}`)
   next()
 }, issueRoutes)
 
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
