@@ -49,16 +49,16 @@ export class IssueService {
 
   createIssue(issue: Issue): Observable<Issue> {
     const params = this.withUserKey()
-    return this.http.post<Issue>(this.baseUrl, issue, {params})
+    return this.http.post<Issue>(this.baseUrl, issue, { params })
   }
 
   updateIssue(id: string, updates: Partial<Issue>): Observable<Issue> {
     const params = this.withUserKey()
-    return this.http.patch<Issue>(`${this.baseUrl}/${id}`, updates, {params})
+    return this.http.patch<Issue>(`${this.baseUrl}/${id}`, updates, { params })
   }
 
   deleteIssue(id: string): Observable<{ message: string }> {
     const params = this.withUserKey()
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`, {params})
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`, { params })
   }
 }
