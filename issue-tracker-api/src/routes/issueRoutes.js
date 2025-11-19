@@ -8,12 +8,12 @@ const getUserKey = (req) => {
     console.warn("[getUserKey] req is undefined")
     return null
   }
-  if (!req.query) {
-    console.warn("[getUserKey] req.query is undefined")
-    return null
-  }
 
-  return req.query.userKey || null
+  const query = req.query || {}
+  const key = query.userKey || null
+
+  console.log("[getUserKey] query:", query, "resolved userKey:", key)
+  return key
 }
 
 
@@ -64,9 +64,11 @@ router.get("/:id", async (req, res) => {
 // POST create issue
 router.post("/", async (req, res) => {
   try {
-    const userKey = getUserKey()
+    const userKey = getUserKey(req)
+    console.log("[POST /api/issues] userKey:", userKey, "body:", req.body)
 
-    const { title, description, status, priority, assignedTo, createdBy } = req.body
+    const { title, description, status, priority, assignedTo, createdBy } =
+      req.body
 
     const issue = await Issue.create({
       title,
@@ -80,7 +82,7 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(issue)
   } catch (err) {
-    console.error("Error creating issue:", err.message)
+    console.error("Error creating issue:", err)
     res.status(500).json({ error: "Server error" })
   }
 })
