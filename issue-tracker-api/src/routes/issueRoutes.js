@@ -100,7 +100,7 @@ router.patch("/:id", async (req, res) => {
     }
 
     const issue = await Issue.findOneAndUpdate(
-      req.params.id,
+      filter,
       { $set: updates },
       { new: true }
     )
@@ -125,7 +125,7 @@ router.delete("/:id", async (req, res) => {
         filter.ownerKey = userKey
       }
 
-      const issue = await Issue.findOneAndUpdate(req.params.id)
+      const issue = await Issue.findOneAndUpdate(filter)
       if (!issue) return res.status(404).json({ error: "Issue not found" })
   
       res.json({ message: "Issue deleted" })
