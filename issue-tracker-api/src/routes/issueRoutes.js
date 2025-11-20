@@ -94,7 +94,7 @@ router.patch("/:id", async (req, res) => {
     const userKey = getUserKey(req)
     const updates = req.body
 
-    const filter = {_id: req.params.id}
+    const filter = { _id: req.params.id }
     if (userKey) {
       filter.ownerKey = userKey
     }
@@ -119,7 +119,7 @@ router.delete("/:id", async (req, res) => {
     try {
       const userKey = getUserKey(req)
       
-      const filter = {_id: req.params.id}
+      const filter = { _id: req.params.id }
 
       if (userKey) {
         filter.ownerKey = userKey
