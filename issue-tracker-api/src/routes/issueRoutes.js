@@ -46,14 +46,13 @@ router.get("/:id", async (req, res) => {
     if (!issue) {
       return res.status(404).json({ error: "Issue not found" })}
 
-    if ( userKey && issue.ownerKey !== userKey) {
+    if ( userKey && issue.ownerKey && issue.ownerKey !== userKey) {
       console.warn(
-        "[GET /api/issues/:id] ownerKey mismatch",
-        "issue.ownerKey:",
-        issue.ownerKey,
-        "userKey:",
-        userKey
-      )
+        "[GET /api/issues/:id] ownerKey mismatch",{
+          issueOwner: issue.ownerKey,
+          viewerKey: userKey,
+          issueId: req.params.id
+        })
       return res.status(404).json({ error: "Issue not found" })
     }
 
