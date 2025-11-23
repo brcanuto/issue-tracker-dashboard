@@ -43,7 +43,8 @@ router.get("/:id", async (req, res) => {
     const userKey = getUserKey(req)
 
     const issue = await Issue.findById(req.params.id)
-    if (!issue) return res.status(404).json({ error: "Issue not found" })
+    if (!issue) {
+      return res.status(404).json({ error: "Issue not found" })}
 
     if ( userKey && issue.ownerKey !== userKey) {
       console.warn(
