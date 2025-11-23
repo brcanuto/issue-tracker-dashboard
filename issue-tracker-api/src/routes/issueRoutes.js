@@ -24,11 +24,6 @@ router.get("/", async (req, res) => {
 
     const filter = {}
 
-    // Only return issues for this userKey (if provided)
-    if (userKey) {
-      filter.ownerKey = userKey
-    }
-
     if (status) filter.status = status
     if (priority) filter.priority = priority
 
@@ -50,7 +45,6 @@ router.get("/:id", async (req, res) => {
       return res.status(404).json({ error: "Issue not found" })
     }
 
-    // Log if someone views an issue they don't own, but do NOT block it
     if (userKey && issue.ownerKey && issue.ownerKey !== userKey) {
       console.warn("[GET /api/issues/:id] ownerKey mismatch", {
         issueOwner: issue.ownerKey,
@@ -81,7 +75,7 @@ router.post("/", async (req, res) => {
       priority,
       assignedTo,
       createdBy,
-      ownerKey: userKey || null
+      ownerKey: userKey || null  // still storing who created it
     })
 
     res.status(201).json(issue)
@@ -94,14 +88,9 @@ router.post("/", async (req, res) => {
 // PATCH update issue (status, priority, assignee etc)
 router.patch("/:id", async (req, res) => {
   try {
-    const userKey = getUserKey(req)
     const updates = req.body
 
-    // Only allow updates on issues owned by this userKey
     const filter = { _id: req.params.id }
-    if (userKey) {
-      filter.ownerKey = userKey
-    }
 
     const issue = await Issue.findOneAndUpdate(
       filter,
@@ -123,13 +112,7 @@ router.patch("/:id", async (req, res) => {
 // DELETE issue
 router.delete("/:id", async (req, res) => {
   try {
-    const userKey = getUserKey(req)
-
-    // Only allow deletes on issues owned by this userKey
     const filter = { _id: req.params.id }
-    if (userKey) {
-      filter.ownerKey = userKey
-    }
 
     const issue = await Issue.findOneAndDelete(filter)
 

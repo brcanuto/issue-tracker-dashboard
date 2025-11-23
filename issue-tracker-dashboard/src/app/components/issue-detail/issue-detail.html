@@ -40,7 +40,7 @@
       </div>
       <div>
         <span class="label">Created by:</span>
-        <span>{{ issue.createdBy || "Unknown" }}</span>
+        <span>{{ issue.ownerKey || issue.createdBy || "Unknown" }}</span>
       </div>
       <div>
         <span class="label">Created:</span>

@@ -135,6 +135,11 @@
           <p class="issue-description">
             {{ issue.description }}
           </p>
+
+          <p class="issue-creator">
+          <strong>Creator:</strong>
+           {{ issue.ownerKey || issue.createdBy || 'Unknown' }}
+          </p>
     
           <div class="issue-meta-row">
             <span class="issue-meta">
