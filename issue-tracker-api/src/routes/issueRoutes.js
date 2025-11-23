@@ -3,8 +3,10 @@ const Issue = require("../models/Issue")
 
 const router = express.Router()
 
+// Helper: safely get pseudo-user key from query string
 const getUserKey = (req) => {
   if (!req) {
+    console.warn("[getUserKey] req is undefined")
     return null
   }
 
@@ -14,15 +16,15 @@ const getUserKey = (req) => {
   return key
 }
 
-
 // GET all issues, with optional status and priority filters
 router.get("/", async (req, res) => {
   try {
     const { status, priority } = req.query
-    const userKey = getUserKey()
+    const userKey = getUserKey(req)
 
     const filter = {}
 
+    // Only return issues for this userKey (if provided)
     if (userKey) {
       filter.ownerKey = userKey
     }
@@ -33,27 +35,28 @@ router.get("/", async (req, res) => {
     const issues = await Issue.find(filter).sort({ createdAt: -1 })
     res.json(issues)
   } catch (err) {
+    console.error("Error fetching issues:", err)
     res.status(500).json({ error: "Server error" })
   }
 })
 
-// GET single issue
+// GET single issue (view allowed even if not owner)
 router.get("/:id", async (req, res) => {
   try {
     const userKey = getUserKey(req)
 
     const issue = await Issue.findById(req.params.id)
     if (!issue) {
-      return res.status(404).json({ error: "Issue not found" })}
-
-    if ( userKey && issue.ownerKey && issue.ownerKey !== userKey) {
-      console.warn(
-        "[GET /api/issues/:id] ownerKey mismatch",{
-          issueOwner: issue.ownerKey,
-          viewerKey: userKey,
-          issueId: req.params.id
-        })
       return res.status(404).json({ error: "Issue not found" })
+    }
+
+    // Log if someone views an issue they don't own, but do NOT block it
+    if (userKey && issue.ownerKey && issue.ownerKey !== userKey) {
+      console.warn("[GET /api/issues/:id] ownerKey mismatch", {
+        issueOwner: issue.ownerKey,
+        viewerKey: userKey,
+        issueId: req.params.id
+      })
     }
 
     res.json(issue)
@@ -88,12 +91,13 @@ router.post("/", async (req, res) => {
   }
 })
 
-// PATCH update issue
+// PATCH update issue (status, priority, assignee etc)
 router.patch("/:id", async (req, res) => {
   try {
     const userKey = getUserKey(req)
     const updates = req.body
 
+    // Only allow updates on issues owned by this userKey
     const filter = { _id: req.params.id }
     if (userKey) {
       filter.ownerKey = userKey
@@ -105,34 +109,39 @@ router.patch("/:id", async (req, res) => {
       { new: true }
     )
 
-    if (!issue) return res.status(404).json({ error: "Issue not found" })
+    if (!issue) {
+      return res.status(404).json({ error: "Issue not found" })
+    }
 
     res.json(issue)
   } catch (err) {
-    console.error("Error updating issue:", err.message)
+    console.error("Error updating issue:", err)
     res.status(500).json({ error: "Server error" })
   }
 })
 
 // DELETE issue
 router.delete("/:id", async (req, res) => {
-    try {
-      const userKey = getUserKey(req)
-      
-      const filter = { _id: req.params.id }
+  try {
+    const userKey = getUserKey(req)
 
-      if (userKey) {
-        filter.ownerKey = userKey
-      }
-
-      const issue = await Issue.findOneAndUpdate(filter)
-      if (!issue) return res.status(404).json({ error: "Issue not found" })
-  
-      res.json({ message: "Issue deleted" })
-    } catch (err) {
-      console.error("Error deleting issue:", err.message)
-      res.status(500).json({ error: "Server error" })
+    // Only allow deletes on issues owned by this userKey
+    const filter = { _id: req.params.id }
+    if (userKey) {
+      filter.ownerKey = userKey
     }
-  })
+
+    const issue = await Issue.findOneAndDelete(filter)
+
+    if (!issue) {
+      return res.status(404).json({ error: "Issue not found" })
+    }
+
+    res.json({ message: "Issue deleted" })
+  } catch (err) {
+    console.error("Error deleting issue:", err)
+    res.status(500).json({ error: "Server error" })
+  }
+})
 
 module.exports = router
